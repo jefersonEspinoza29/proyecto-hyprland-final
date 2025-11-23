@@ -12,22 +12,22 @@ window#volume_osd {
 
 /* main pill volume */
 .vol-osd {
-  background-color: rgba(24, 24, 37, 0.95); /* pill background */
+  background-color: rgba(24, 24, 37, 0.95); 
   border-radius: 999px;
   padding: 8px 16px;
-  border: 1px solid #313244;               /* pill border */
+  border: 1px solid #313244;               
 }
 
 /* volume icon */
 .vol-icon {
   color: #cdd6f4;
   margin-right: 10px;
-  font-size: 14px;                         /* icon size */
+  font-size: 14px;                        
 }
 
 /* bar container */
 .vol-bar {
-  min-width: 260px;                        /* bar length */
+  min-width: 260px;                    
   margin: 6 8px;
 }
 
@@ -40,7 +40,7 @@ window#volume_osd {
 
 /* bar fill (actual volume) */
 .vol-bar progressbar progress {
-  background-color: #89b4fa;               /* bar color when filled */
+  background-color: #89b4fa;               
   border-radius: 999px;
 }
 
@@ -70,7 +70,7 @@ window#brightness_osd {
 
 /* brightness icon */
 .br-icon {
-  color: #f9e2af;       /* soft yellow for brightness */
+  color: #f9e2af;       
   margin-right: 10px;
   font-size: 14px;
 }
