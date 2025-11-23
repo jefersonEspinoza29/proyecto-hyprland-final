@@ -1,0 +1,78 @@
+{
+  "layer": "top",
+  "position": "top",
+  "margin-top": 8,
+  "margin-left": 12,
+  "margin-right": 12,
+  "height": 32,
+  "modules-left": [
+    "custom/launcher",
+    "hyprland/workspaces",
+    "custom/player"
+  ],
+  "modules-center": [
+    "hyprland/window"
+  ],
+  "modules-right": [
+    "pulseaudio",
+    "network",
+    "clock",
+    "tray"
+  ],
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "hyprctl dispatch workspace {id}",
+    "format-icons": {
+      "1": "●",
+      "2": "●",
+      "3": "●",
+      "4": "●",
+      "5": "●"
+    }
+  },
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 60,
+    "separate-outputs": true
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-muted": "󰝟 ",
+    "format-icons": {
+      "default": [
+        "󰕿", 
+        "󰖀", 
+        "󰕾"
+      ]
+    },
+    "on-click": "pavucontrol"
+  },
+  "network": {
+    "format-wifi": "  {signalStrength}%",
+    "format-ethernet": "󰈁  {ifname}",
+    "format-disconnected": "󰖪",
+    "tooltip": true
+  },
+  "clock": {
+    "format": " {:%H:%M}",
+    "tooltip-format": "{:%A %d %B %Y}"
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 6
+  },
+  "custom/launcher": {
+    "format": "",
+    "on-click": "rofi -show drun -theme ~/.config/rofi/launcher.rasi",
+    "tooltip": false
+  },
+  "custom/player": {
+    "format": "{}",
+    "exec": "/home/jheff/.config/waybar/scripts/playerctl.sh",
+    "interval": 1,
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous",
+    "tooltip": true
+  }
+}

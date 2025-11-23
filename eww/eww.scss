@@ -1,0 +1,101 @@
+* {
+  font-family: "JetBrainsMono Nerd Font", "Noto Sans", "Cantarell";
+  font-size: 12px;
+  background-color: transparent;
+}
+
+/* window background (screen area) */
+window#volume_osd {
+  background-color: transparent;
+  border: none;
+}
+
+/* main pill volume */
+.vol-osd {
+  background-color: rgba(24, 24, 37, 0.95); /* pill background */
+  border-radius: 999px;
+  padding: 8px 16px;
+  border: 1px solid #313244;               /* pill border */
+}
+
+/* volume icon */
+.vol-icon {
+  color: #cdd6f4;
+  margin-right: 10px;
+  font-size: 14px;                         /* icon size */
+}
+
+/* bar container */
+.vol-bar {
+  min-width: 260px;                        /* bar length */
+  margin: 6 8px;
+}
+
+/* bar background (track) */
+.vol-bar progressbar trough {
+  background-color: #313244;
+  border-radius: 999px;
+  min-height: 6px;
+}
+
+/* bar fill (actual volume) */
+.vol-bar progressbar progress {
+  background-color: #89b4fa;               /* bar color when filled */
+  border-radius: 999px;
+}
+
+/* percent label */
+.vol-label {
+  color: #cdd6f4;
+  min-width: 40px;
+}
+
+
+/* ========================= */
+/*      BRIGHTNESS OSD       */
+/* ========================= */
+
+window#brightness_osd {
+  background-color: transparent;
+  border: none;
+}
+
+/* main pill brightness */
+.br-osd {
+  background-color: rgba(24, 24, 37, 0.95);
+  border-radius: 999px;
+  padding: 8px 16px;
+  border: 1px solid #313244;
+}
+
+/* brightness icon */
+.br-icon {
+  color: #f9e2af;       /* soft yellow for brightness */
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+/* bar container brightness */
+.br-bar {
+  min-width: 260px;
+  margin: 6 8px;
+}
+
+/* bar background */
+.br-bar progressbar trough {
+  background-color: #313244;
+  border-radius: 999px;
+  min-height: 6px;
+}
+
+/* bar fill (brightness level) */
+.br-bar progressbar progress {
+  background-color: #f9e2af;
+  border-radius: 999px;
+}
+
+/* percent label brightness */
+.br-label {
+  color: #cdd6f4;
+  min-width: 40px;
+}

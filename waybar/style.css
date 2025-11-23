@@ -1,0 +1,96 @@
+* {
+  font-family: "JetBrainsMono Nerd Font", "Noto Sans", "Cantarell";
+  font-size: 11px;
+}
+
+window#waybar {
+  background: transparent;
+  color: #cdd6f4;
+}
+
+/* global pill container */
+#waybar > box {
+  background-color: #181825;
+  border-radius: 999px;
+  border: 1px solid #313244;
+  padding: 4px 10px;
+}
+
+/* launcher icon left */
+#custom-launcher {
+  padding: 0 8px;
+  margin-left: 4px;
+  margin-right: 6px;
+}
+
+#custom-launcher:hover {
+  background: #1e1e2e;
+  border-radius: 999px;
+}
+
+/* workspaces minimal pills */
+#workspaces {
+  margin-right: 8px;
+}
+
+#workspaces button {
+  border-radius: 999px;
+  padding: 1px 6px;
+  margin: 0 2px;
+  min-width: 10px;
+
+  border: 1px solid transparent;
+  background: transparent;
+  color: #a6adc8;
+}
+
+#workspaces button.active {
+  background: #89b4fa;
+  border-color: #89b4fa;
+  color: #11111b;
+}
+
+#workspaces button.urgent {
+  background: #f38ba8;
+  border-color: #f38ba8;
+  color: #11111b;
+}
+
+#workspaces button:hover {
+  border-color: #89b4fa;
+}
+
+/* center window title */
+#window {
+  padding: 0 14px;
+}
+
+/* right modules spacing */
+#pulseaudio,
+#network,
+#clock,
+#tray {
+  margin-left: 10px;
+  margin-right: 4px;
+}
+
+#pulseaudio,
+#network,
+#clock {
+  padding: 0 8px;
+  border-radius: 999px;
+}
+
+#pulseaudio:hover,
+#network:hover,
+#clock:hover {
+  background: #1e1e2e;
+}
+
+/* Modulo de musica */
+#custom-player {
+  padding: 0 10px;
+  margin: 0 6px;
+  
+  font-size: 11px;
+}

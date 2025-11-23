@@ -1,0 +1,66 @@
+;; simple volume var
+(defvar vol 0)
+
+;; brightness var
+(defvar br 0)
+
+;; widget: pill with icon, bar and percent (volume)
+(defwidget volume-osd []
+  (box
+    :class "vol-osd"
+    :orientation "h"
+    :spacing 8
+    :space-evenly "false"
+    (label
+      :class "vol-icon"
+      :text "")
+    (progress
+      :class "vol-bar"
+      :value vol
+      :max 100)
+    (label
+      :class "vol-label"
+      :text "${vol}%")))
+
+;; window: bottom center (your current stable config)
+(defwindow volume_osd
+  :monitor 0
+  :stacking "fg"
+  :exclusive false
+  :focusable false
+  :geometry (geometry
+              :x "50%"
+              :y "10%"          ; distance from top (95% = near bottom)
+              :anchor "bottom center")
+  (volume-osd))
+
+
+;; widget: pill for brightness
+(defwidget brightness-osd []
+  (box
+    :class "br-osd"
+    :orientation "h"
+    :spacing 8
+    :space-evenly "false"
+    (label
+      :class "br-icon"
+      :text "")
+    (progress
+      :class "br-bar"
+      :value br
+      :max 100)
+    (label
+      :class "br-label"
+      :text "${br}%")))
+
+;; window: brightness OSD
+(defwindow brightness_osd
+  :monitor 0
+  :stacking "fg"
+  :exclusive false
+  :focusable false
+  :geometry (geometry
+              :x "50%"
+              :y "10%"
+              :anchor "bottom center")
+  (brightness-osd))
