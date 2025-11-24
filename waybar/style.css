@@ -1,6 +1,6 @@
 * {
   font-family: "JetBrainsMono Nerd Font", "Noto Sans", "Cantarell";
-  font-size: 11px;
+  font-size: 12px;
 }
 
 window#waybar {
@@ -65,32 +65,47 @@ window#waybar {
   padding: 0 14px;
 }
 
-/* right modules spacing */
+/* right modules spacing & pills */
+
+#cpu,
+#memory,
+#backlight,
 #pulseaudio,
 #network,
 #clock,
+#custom-power {
+  margin-left: 8px;
+  margin-right: 4px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 13px; /* iconos/texto un poquito más grandes a la derecha */
+}
+
+#cpu:hover,
+#memory:hover,
+#backlight:hover,
+#pulseaudio:hover,
+#network:hover,
+#clock:hover,
+#custom-power:hover {
+  background: #1e1e2e;
+}
+
+/* tray pegadito pero sin fondo de pastilla */
 #tray {
-  margin-left: 10px;
+  margin-left: 6px;
   margin-right: 4px;
 }
 
-#pulseaudio,
-#network,
+/* reloj un poquito más marcado */
 #clock {
-  padding: 0 8px;
-  border-radius: 999px;
-}
-
-#pulseaudio:hover,
-#network:hover,
-#clock:hover {
-  background: #1e1e2e;
+  font-weight: 500;
+  letter-spacing: 0.03em;
 }
 
 /* Modulo de musica */
 #custom-player {
   padding: 0 10px;
   margin: 0 6px;
-  
-  font-size: 11px;
+  font-size: 12px;
 }

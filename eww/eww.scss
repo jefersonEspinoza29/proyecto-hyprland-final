@@ -1,101 +1,55 @@
-* {
-  font-family: "JetBrainsMono Nerd Font", "Noto Sans", "Cantarell";
-  font-size: 12px;
-  background-color: transparent;
+/* ============================
+ *  OSD brillo estilo macOS
+ * ============================
+ */
+
+$osd-bg: rgba(20, 22, 28, 0.92);
+$osd-border: rgba(255, 255, 255, 0.12);
+$osd-text: #f9fafb;
+
+/* Tarjeta base (brillo) */
+.brightness-osd {
+  background-color: $osd-bg;
+  border-radius: 20px;
+  border: 1px solid $osd-border;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0);
 }
 
-/* window background (screen area) */
-window#volume_osd {
-  background-color: transparent;
-  border: none;
+.brightness-osd-icon {
+  color: $osd-text;
 }
 
-/* main pill volume */
-.vol-osd {
-  background-color: rgba(24, 24, 37, 0.95); 
-  border-radius: 999px;
-  padding: 8px 16px;
-  border: 1px solid #313244;               
+/* Barra de brillo */
+.brightness-osd-bar {
+  background-color: rgba(255, 255, 255, 0.12);            /* pista */
+  background-image: linear-gradient(90deg, #ffffff, #ffffff); /* relleno */
+  background-repeat: no-repeat;
+  background-position: left center;
 }
 
-/* volume icon */
-.vol-icon {
-  color: #cdd6f4;
-  margin-right: 10px;
-  font-size: 14px;                        
+/* ============================
+ *  OSD volumen estilo macOS
+ *  (mismo estilo que brillo)
+ * ============================
+ */
+
+.volume-osd {
+  background-color: $osd-bg;
+  border-radius: 20px;
+  border: 1px solid $osd-border;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0);
 }
 
-/* bar container */
-.vol-bar {
-  min-width: 260px;                    
-  margin: 6 8px;
-}
-
-/* bar background (track) */
-.vol-bar progressbar trough {
-  background-color: #313244;
-  border-radius: 999px;
-  min-height: 6px;
-}
-
-/* bar fill (actual volume) */
-.vol-bar progressbar progress {
-  background-color: #89b4fa;               
-  border-radius: 999px;
-}
-
-/* percent label */
-.vol-label {
-  color: #cdd6f4;
-  min-width: 40px;
+.brightness-osd-icon,
+.volume-osd-icon {
+  color: $osd-text;
 }
 
 
-/* ========================= */
-/*      BRIGHTNESS OSD       */
-/* ========================= */
-
-window#brightness_osd {
-  background-color: transparent;
-  border: none;
-}
-
-/* main pill brightness */
-.br-osd {
-  background-color: rgba(24, 24, 37, 0.95);
-  border-radius: 999px;
-  padding: 8px 16px;
-  border: 1px solid #313244;
-}
-
-/* brightness icon */
-.br-icon {
-  color: #f9e2af;       
-  margin-right: 10px;
-  font-size: 14px;
-}
-
-/* bar container brightness */
-.br-bar {
-  min-width: 260px;
-  margin: 6 8px;
-}
-
-/* bar background */
-.br-bar progressbar trough {
-  background-color: #313244;
-  border-radius: 999px;
-  min-height: 6px;
-}
-
-/* bar fill (brightness level) */
-.br-bar progressbar progress {
-  background-color: #f9e2af;
-  border-radius: 999px;
-}
-
-/* percent label brightness */
-.br-label {
-  color: #cdd6f4;
-  min-width: 40px;
+/* Barra de volumen */
+.volume-osd-bar {
+  background-color: rgba(255, 255, 255, 0.12);
+  background-image: linear-gradient(90deg, #ffffff, #ffffff);
+  background-repeat: no-repeat;
+  background-position: left center;
 }

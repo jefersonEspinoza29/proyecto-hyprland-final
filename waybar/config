@@ -5,20 +5,28 @@
   "margin-left": 12,
   "margin-right": 12,
   "height": 32,
+
   "modules-left": [
     "custom/launcher",
     "hyprland/workspaces",
     "custom/player"
   ],
+
   "modules-center": [
     "hyprland/window"
   ],
+
   "modules-right": [
+    "cpu",
+    "memory",
+    "backlight",
     "pulseaudio",
     "network",
+    "tray",
     "clock",
-    "tray"
+    "custom/power"
   ],
+
   "hyprland/workspaces": {
     "format": "{icon}",
     "on-click": "hyprctl dispatch workspace {id}",
@@ -30,42 +38,82 @@
       "5": "●"
     }
   },
+
   "hyprland/window": {
     "format": "{}",
     "max-length": 60,
     "separate-outputs": true
   },
+
+  "cpu": {
+    "format": " {usage}%",
+    "interval": 2,
+    "tooltip": true
+  },
+
+  "memory": {
+    "format": " {percentage}%",
+    "interval": 5,
+    "tooltip": true
+  },
+
+  "backlight": {
+    "format": "{icon}",
+    "format-icons": [
+      "󰃞",
+      "󰃟",
+      "󰃠",
+      "󰃡",
+      "󰃢"
+    ],
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "tooltip": true
+  },
+
   "pulseaudio": {
     "format": "{icon}",
     "format-muted": "󰝟 ",
     "format-icons": {
       "default": [
-        "󰕿", 
-        "󰖀", 
+        "󰕿",
+        "󰖀",
         "󰕾"
       ]
     },
     "on-click": "pavucontrol"
   },
+
   "network": {
-    "format-wifi": "  {signalStrength}%",
-    "format-ethernet": "󰈁  {ifname}",
+    "format-wifi": "",
+    "format-ethernet": "󰈁",
     "format-disconnected": "󰖪",
-    "tooltip": true
+    "tooltip": true,
+    "on-click": "/home/jheff/.config/waybar/scripts/nm-applet-toggle.sh",
+    "on-click-right": "nm-connection-editor"
   },
-  "clock": {
+
+    "clock": {
     "format": " {:%H:%M}",
-    "tooltip-format": "{:%A %d %B %Y}"
+    "tooltip-format": "{:%A %d %B %Y}",
+    "on-click": "gsimplecal",
+    "on-click-right": "gnome-calendar",
+    "on-scroll-up": "gsimplecal prev_month",
+    "on-scroll-down": "gsimplecal next_month"
   },
+
+
   "tray": {
-    "icon-size": 16,
+    "icon-size": 18,
     "spacing": 6
   },
+
   "custom/launcher": {
     "format": "",
     "on-click": "rofi -show drun -theme ~/.config/rofi/launcher.rasi",
     "tooltip": false
   },
+
   "custom/player": {
     "format": "{}",
     "exec": "/home/jheff/.config/waybar/scripts/playerctl.sh",
@@ -74,5 +122,11 @@
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous",
     "tooltip": true
+  },
+
+  "custom/power": {
+    "format": "",
+    "on-click": "wlogout",
+    "tooltip": "Apagar / Reiniciar / Bloquear / Cerrar sesión"
   }
 }

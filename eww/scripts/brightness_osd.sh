@@ -1,40 +1,45 @@
 #!/usr/bin/env bash
 
-CFG="$HOME/.config/eww"
-STATE_FILE="$HOME/.cache/eww_brightness_osd.last"
+STEP=5          # cuánto sube/baja cada vez
+HIDE_AFTER=1.0  # segundos visible
+TIMER_FILE="/tmp/brightness_osd_timer.pid"
 
-ACTION="$1"
+DIR="$1"
 
-# 1. Cambiar brillo
-case "$ACTION" in
+# Cambiar brillo con brillo
+case "$DIR" in
   up)
-    brillo -q -A 5
+    brillo -A "$STEP"
     ;;
   down)
-    brillo -q -U 5
+    brillo -U "$STEP"
+    ;;
+  *)
+    echo "Uso: $0 up|down"
+    exit 1
     ;;
 esac
 
-# 2. Obtener brillo actual (0-100, redondeado)
-BR_LINE="$(brillo -G 2>/dev/null)"
-BR="$(awk '{print int($1 + 0.5)}' <<< "$BR_LINE")"
+# Leer brillo actual (entero)
+current=$(brillo -G 2>/dev/null)
+current=${current%.*}
 
-# 3. Actualizar variable de eww
-eww -c "$CFG" update br="$BR"
+# Actualizar Eww
+eww update brightness-level="$current"
+eww open brightness-osd
 
-# 4. Mostrar OSD
-eww -c "$CFG" open brightness_osd
-
-# 5. Guardar timestamp de este evento
-mkdir -p "$HOME/.cache"
-NOW="$(date +%s%3N)"
-echo "$NOW" > "$STATE_FILE"
-
-# 6. Temporizador: solo cierra si no hubo nuevas pulsaciones en 2 s
-(
-  sleep 2
-  LAST="$(cat "$STATE_FILE" 2>/dev/null || echo 0)"
-  if [ "$LAST" = "$NOW" ]; then
-    eww -c "$CFG" close brightness_osd
+# Cancelar temporizador anterior
+if [ -f "$TIMER_FILE" ]; then
+  old_pid=$(cat "$TIMER_FILE")
+  if kill -0 "$old_pid" 2>/dev/null; then
+    kill "$old_pid" 2>/dev/null
   fi
+fi
+
+# Nuevo temporizador
+(
+  sleep "$HIDE_AFTER"
+  eww close brightness-osd
 ) &
+
+echo $! > "$TIMER_FILE"

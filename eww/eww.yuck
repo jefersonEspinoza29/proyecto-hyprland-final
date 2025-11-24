@@ -1,66 +1,88 @@
-;; simple volume var
-(defvar vol 0)
+;; ============================
+;;  OSD de brillo estilo macOS
+;; ============================
 
-;; brightness var
-(defvar br 0)
+(defvar brightness-level 0)
 
-;; widget: pill with icon, bar and percent (volume)
-(defwidget volume-osd []
-  (box
-    :class "vol-osd"
-    :orientation "h"
-    :spacing 8
-    :space-evenly "false"
-    (label
-      :class "vol-icon"
-      :text "")
-    (progress
-      :class "vol-bar"
-      :value vol
-      :max 100)
-    (label
-      :class "vol-label"
-      :text "${vol}%")))
-
-;; window: bottom center (your current stable config)
-(defwindow volume_osd
+(defwindow brightness-osd
   :monitor 0
-  :stacking "fg"
   :exclusive false
+  :stacking "overlay"
   :focusable false
   :geometry (geometry
-              :x "50%"
-              :y "10%"          ; distance from top (95% = near bottom)
-              :anchor "bottom center")
-  (volume-osd))
+    :x "40%"
+    :y "74%"
+    :width "180px"
+    :height "180px")
+  (brightness-osd-widget))
 
-
-;; widget: pill for brightness
-(defwidget brightness-osd []
+(defwidget brightness-osd-widget []
   (box
-    :class "br-osd"
-    :orientation "h"
-    :spacing 8
-    :space-evenly "false"
-    (label
-      :class "br-icon"
-      :text "")
-    (progress
-      :class "br-bar"
-      :value br
-      :max 100)
-    (label
-      :class "br-label"
-      :text "${br}%")))
+    :class "brightness-osd"
+    :orientation "v"
+    :space-evenly false
+    :halign "center"
+    :valign "center"
+    :width "180px"
+    :height "180px"
+    :style "padding: 20px;"
 
-;; window: brightness OSD
-(defwindow brightness_osd
+    (label
+      :class "brightness-osd-icon"
+      :text "☀"
+      :style "font-size: 60px; margin-bottom: 16px;")
+
+    (box
+      :class "brightness-osd-bar"
+      :style "margin-top: 8px;
+              min-width: 120px;
+              min-height: 14px;
+              border-radius: 9999px;
+              padding: 3px;
+              background-size: ${brightness-level}% 100%;")))
+
+;; ============================
+;;  OSD de volumen estilo macOS
+;; ============================
+
+(defvar volume-level 0)
+
+(defwindow volume-osd
   :monitor 0
-  :stacking "fg"
   :exclusive false
+  :stacking "overlay"
   :focusable false
   :geometry (geometry
-              :x "50%"
-              :y "10%"
-              :anchor "bottom center")
-  (brightness-osd))
+    :x "55%"          ;; lo mueves donde quieras, igual que el de brillo
+    :y "74%"
+    :width "180px"
+    :height "180px")
+  (volume-osd-widget))
+
+(defwidget volume-osd-widget []
+  (box
+    :class "volume-osd"
+     :orientation "v"
+    :space-evenly false
+    :halign "center"
+    :valign "center"
+    :width "180px"
+    :height "180px"
+    :style "padding: 20px;"
+
+    (label
+      :class "brightness-osd-icon"
+      :text " "
+      :style "font-size: 60px; margin-bottom: 16px;")
+
+
+    ;; Barra de volumen (igual que brillo pero con otra clase)
+    (box
+      :class "volume-osd-bar"
+      :style "margin-top: 8px;
+              min-width: 120px;
+              min-height: 14px;
+              border-radius: 9999px;
+              padding: 3px;
+              background-size: ${volume-level}% 100%;")))
+

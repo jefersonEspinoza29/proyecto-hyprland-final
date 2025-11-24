@@ -7,10 +7,13 @@
 !/rofi/
 !/waybar/
 !/hypr/
+!/wlogout/
 
-
+!/gsimplecal/
 # No ignores estos archivos en la raíz del repo
 
 
 # No ignores el propio .gitignore
 !/.gitignore
+
+!/github-recovery-codes.txt
