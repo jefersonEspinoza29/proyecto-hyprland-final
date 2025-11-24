@@ -1,0 +1,24 @@
+agregando la configuracion para eww:
+
+sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+
+
+sudo pacman -S playerctl jq
+
+
+yay -S eww
+
+yay -S waybar
+
+yay -S hyprshot
+
+yay -S wlogout
+
+
+mkdir -p ~/.config/wlogout
+cp /etc/wlogout/layout ~/.config/wlogout/
+cp /etc/wlogout/style.css ~/.config/wlogout/
+
+sudo pacman -S gnome-calendar
+
+
