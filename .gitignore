@@ -17,5 +17,6 @@
 # No ignores el propio .gitignore
 !/.gitignore
 !/install.txt
+!/install.sh
 
-!/github-recovery-codes.txt
+!/README.md
