@@ -10,10 +10,12 @@
 !/wlogout/
 
 !/gsimplecal/
+!/matugen/
 # No ignores estos archivos en la raíz del repo
 
 
 # No ignores el propio .gitignore
 !/.gitignore
+!/install.txt
 
 !/github-recovery-codes.txt

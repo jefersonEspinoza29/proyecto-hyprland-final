@@ -1,7 +1,8 @@
 /**
- * Simple app launcher theme
+ * Simple app launcher theme - minimal
  */
 
+/***** Configuration *****/
 /***** Configuration *****/
 configuration {
     modi: "drun,run";
@@ -9,7 +10,17 @@ configuration {
     icon-theme: "Papirus-Dark";
     display-drun: "Apps";
     drun-display-format: "{name}";
+
+    /* que el foco siga al mouse */
+    hover-select: true;
+
+    /* no usar el clic para solo seleccionar */
+    me-select-entry: "";
+
+    /* clic izquierdo = abrir app seleccionada */
+    me-accept-entry: [ MousePrimary ];
 }
+
 
 /***** Imports *****/
 @import "/home/jheff/.config/rofi/colors.rasi"
@@ -27,31 +38,32 @@ window {
 
     enabled: true;
     margin: 0px;
-    padding: 25px;
+    padding: 22px;
     border: 1px;
     border-radius: 24px;
-    border-color: @selected;
+    border-color: @outline;
     cursor: "default";
-    background-color: @background-alt;
+    background-color: @background;     /* fondo principal */
 }
 
 /***** Main box *****/
 mainbox {
     enabled: true;
-    spacing: 15px;
+    spacing: 18px;
     margin: 0px;
     padding: 0px;
     background-color: transparent;
     children: [ "inputbar", "listview" ];
 }
 
-/***** Input bar *****/
+/***** Input bar (pill minimal) *****/
 inputbar {
     enabled: true;
-    spacing: 0px;
-    margin: 0px 0px 8px 0px;
-    padding: 0px;
-    background-color: transparent;
+    spacing: 8px;
+    margin: 0px 0px 4px 0px;
+    padding: 4px 10px;
+    background-color: @background-alt;
+    border-radius: 999px;
     text-color: @foreground;
     children: [ "textbox-prompt-colon", "entry" ];
 }
@@ -60,18 +72,18 @@ textbox-prompt-colon {
     enabled: true;
     expand: false;
     str: "";
-    padding: 10px 14px;
-    border-radius: 999px 0px 0px 999px;
-    background-color: @selected;
-    text-color: @background;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background-color: transparent;
+    text-color: @selected;
 }
 
 entry {
     enabled: true;
     expand: true;
-    padding: 10px 16px;
-    border-radius: 0px 999px 999px 0px;
-    background-color: @background;
+    padding: 4px 4px;
+    border-radius: 999px;
+    background-color: transparent;
     text-color: @foreground;
     cursor: text;
 }
@@ -81,17 +93,17 @@ listview {
     enabled:        true;
 
     /* Grid */
-    columns:        5;          /* cuantas columnas */
-    lines:          4;          /* maximo de filas visibles */
+    columns:        5;          /* cuántas columnas */
+    lines:          4;          /* máximo de filas visibles */
 
     /* Comportamiento */
     cycle:          false;
-    dynamic:        false;       /* ajusta el grid segun la cantidad de apps */
+    dynamic:        false;
     scrollbar:      false;
-    layout:         vertical; /* llena por filas: izq -> der, luego abajo */
+    layout:         vertical;
     reverse:        false;
 
-    fixed-height:   false;      /* importante: permite que la altura cambie */
+    fixed-height:   false;
     fixed-columns:  false;
 
     /* Estilos */
@@ -105,9 +117,6 @@ listview {
     cursor:         "default";
 }
 
-
-
-
 /***** Elements (apps) *****/
 element {
     enabled: true;
@@ -116,7 +125,7 @@ element {
     padding: 10px 8px;
     border: 0px;
     border-radius: 16px;
-    background-color: @background;
+    background-color: @background-alt;   /* tarjetas suaves */
     text-color: @foreground;
     cursor: pointer;
     orientation: vertical;
@@ -139,11 +148,12 @@ element-text {
     font: "JetBrainsMono Nerd Font 11";
 }
 
+/* App seleccionada (focus) */
 element selected {
     background-color: @selected;
-    text-color: @background;
+    text-color: @selected-foreground;
 }
 
 element-text selected {
-    text-color: @background;
+    text-color: @selected-foreground;
 }

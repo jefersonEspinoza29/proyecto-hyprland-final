@@ -5,28 +5,26 @@
   "margin-left": 12,
   "margin-right": 12,
   "height": 32,
-
   "modules-left": [
     "custom/launcher",
     "hyprland/workspaces",
     "custom/player"
   ],
-
   "modules-center": [
     "hyprland/window"
   ],
-
   "modules-right": [
     "cpu",
     "memory",
     "backlight",
     "pulseaudio",
+    "bluetooth",
     "network",
+    "battery",
     "tray",
     "clock",
     "custom/power"
   ],
-
   "hyprland/workspaces": {
     "format": "{icon}",
     "on-click": "hyprctl dispatch workspace {id}",
@@ -38,25 +36,24 @@
       "5": "●"
     }
   },
-
   "hyprland/window": {
     "format": "{}",
     "max-length": 60,
     "separate-outputs": true
   },
-
   "cpu": {
     "format": " {usage}%",
     "interval": 2,
-    "tooltip": true
+    "tooltip": true,
+    "tooltip-format": "CPU: {usage}%"
   },
-
   "memory": {
-    "format": " {percentage}%",
+    "format": " {percentage}%", // sigue mostrando el %
     "interval": 5,
-    "tooltip": true
+    "tooltip": true,
+    // {used} y {total} están en GiB, 0.1f = 1 decimal
+    "tooltip-format": "Memoria usada: {used:0.1f} GiB"
   },
-
   "backlight": {
     "format": "{icon}",
     "format-icons": [
@@ -68,9 +65,9 @@
     ],
     "on-scroll-up": "brightnessctl set +5%",
     "on-scroll-down": "brightnessctl set 5%-",
-    "tooltip": true
+    "tooltip": true,
+    "tooltip-format": "Brillo: {percent}%"
   },
-
   "pulseaudio": {
     "format": "{icon}",
     "format-muted": "󰝟 ",
@@ -81,39 +78,85 @@
         "󰕾"
       ]
     },
+    "tooltip": true,
+    // {volume} = volumen %, {desc} = nombre del dispositivo (útil para BT/cascos)
+    "tooltip-format": "Volumen: {volume}%\nSalida: {desc}",
     "on-click": "pavucontrol"
   },
-
+  "bluetooth": {
+    "format": "󰂯",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
+    "format-connected": "󰂱 {num_connections}",
+    "tooltip": true,
+    "tooltip-format": "Bluetooth: {status}",
+    "tooltip-format-disabled": "Bluetooth: deshabilitado",
+    "tooltip-format-off": "Bluetooth: apagado",
+    "tooltip-format-on": "Bluetooth: encendido (sin dispositivos)",
+    "tooltip-format-connected": "Bluetooth: conectado ({num_connections} dispositivo/s)\n\n{device_enumerate}",
+    "tooltip-format-no-controller": "Bluetooth: sin adaptador disponible",
+    "tooltip-format-enumerate-connected": "• {device_alias}",
+    // Click izq: mostrar/ocultar icono del tray
+    "on-click": "/home/jheff/.config/waybar/scripts/bluetooth-tray-toggle.sh",
+    // Click der: abrir el panel de Bluetooth
+    "on-click-right": "blueman-manager"
+  },
   "network": {
     "format-wifi": "",
     "format-ethernet": "󰈁",
     "format-disconnected": "󰖪",
     "tooltip": true,
+    // Wi-Fi: SSID, señal e IP
+    "tooltip-format-wifi": "Wi-Fi: {essid}\nSeñal: {signalStrength}% ({signaldBm} dBm)\nIP: {ipaddr}/{cidr}",
+    // Ethernet: interfaz e IP
+    "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}/{cidr}",
+    // Desconectado
+    "tooltip-format-disconnected": "Sin conexión de red",
     "on-click": "/home/jheff/.config/waybar/scripts/nm-applet-toggle.sh",
     "on-click-right": "nm-connection-editor"
   },
-
-    "clock": {
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰂄 {capacity}%",
+    "format-alt": "{time}",
+    "format-icons": [
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
+    ],
+    "critical-threshold": 15,
+    "tooltip": true,
+    // {capacity} = %, {time} = tiempo estimado (si lo da el sistema)
+    "tooltip-format": "Batería: {capacity}%\nTiempo estimado: {time}"
+  },
+  "clock": {
     "format": " {:%H:%M}",
-    "tooltip-format": "{:%A %d %B %Y}",
+    "tooltip-format": "{:%A %d de %B de %Y}",
+    // Para que salga en español, asegúrate de tener el locale instalado
+    // y pon el que uses: es_PE.UTF-8 o es_ES.UTF-8, etc.
+    "locale": "es_PE.UTF-8",
     "on-click": "gsimplecal",
     "on-click-right": "gnome-calendar",
     "on-scroll-up": "gsimplecal prev_month",
     "on-scroll-down": "gsimplecal next_month"
   },
-
-
   "tray": {
     "icon-size": 18,
     "spacing": 6
   },
-
   "custom/launcher": {
     "format": "",
     "on-click": "rofi -show drun -theme ~/.config/rofi/launcher.rasi",
     "tooltip": false
   },
-
   "custom/player": {
     "format": "{}",
     "exec": "/home/jheff/.config/waybar/scripts/playerctl.sh",
@@ -123,7 +166,6 @@
     "on-scroll-down": "playerctl previous",
     "tooltip": true
   },
-
   "custom/power": {
     "format": "",
     "on-click": "wlogout",

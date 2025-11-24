@@ -14,11 +14,12 @@ yay -S hyprshot
 
 yay -S wlogout
 
-
-mkdir -p ~/.config/wlogout
-cp /etc/wlogout/layout ~/.config/wlogout/
-cp /etc/wlogout/style.css ~/.config/wlogout/
-
 sudo pacman -S gnome-calendar
+
+yay -S matugen 
+
+yay -S swww
+
+sudo pacman -S blueman
 
 
