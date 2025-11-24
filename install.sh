@@ -34,6 +34,7 @@ fi
 PACMAN_PKGS=(
   # core / entorno
   hyprland
+  sddm
   waybar
   kitty
   gsimplecal
