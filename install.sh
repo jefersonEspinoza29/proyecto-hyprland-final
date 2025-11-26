@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
 echo "==> Instalador de dotfiles (Hyprland + Waybar + eww + etc.)"
 
@@ -66,6 +66,9 @@ PACMAN_PKGS=(
   noto-fonts
   noto-fonts-emoji
 
+  # plymouth (splash de arranque)
+  plymouth
+
   # build de brillo (manpage)
   go-md2man
 )
@@ -75,9 +78,10 @@ INTEL_PKGS=(
   mesa
   vulkan-intel
   intel-media-driver
+  intel-ucode
 )
 
-# === Drivers NVIDIA propietario (opcional) ===
+# === Drivers NVIDIA propietarios (opcional) ===
 NVIDIA_PKGS=(
   nvidia
   nvidia-utils
@@ -92,6 +96,7 @@ if [[ "$INSTALL_INTEL" =~ ^[sS]$ ]]; then
   PACMAN_PKGS+=("${INTEL_PKGS[@]}")
 fi
 
+echo
 read -rp "¿Instalar drivers NVIDIA propietarios? [s/N]: " INSTALL_NVIDIA
 if [[ "$INSTALL_NVIDIA" =~ ^[sS]$ ]]; then
   PACMAN_PKGS+=("${NVIDIA_PKGS[@]}")
@@ -110,7 +115,6 @@ AUR_PKGS=(
   matugen
   swww
   rofi-wayland
-  # brillo también existe en AUR, pero lo instalaremos desde GitLab abajo
 )
 
 echo "==> Instalando paquetes de AUR con yay..."
@@ -124,17 +128,11 @@ echo "==> Instalando brillo (control de brillo) desde GitLab..."
 BRILLO_TMPDIR="$(mktemp -d)"
 cd "$BRILLO_TMPDIR"
 
-# Clonar el repo oficial
 git clone https://gitlab.com/cameronnemo/brillo.git
 cd brillo
-
-# Compilar
 make
-
-# Instalar (incluye reglas de polkit / apparmor)
 sudo make install install.apparmor install.polkit
 
-# Volver y limpiar
 cd -
 rm -rf "$BRILLO_TMPDIR"
 
@@ -170,7 +168,45 @@ for dir in "${CONFIG_DIRS[@]}"; do
   fi
 done
 
+# =========================
+# 6. Opcional: habilitar SDDM
+# =========================
+echo
+read -rp "¿Habilitar SDDM y arrancar en modo gráfico (graphical.target)? [s/N]: " ENABLE_SDDM
+if [[ "$ENABLE_SDDM" =~ ^[sS]$ ]]; then
+  echo "==> Habilitando SDDM y graphical.target..."
+  sudo systemctl enable sddm.service
+  sudo systemctl set-default graphical.target
+fi
+
+# =========================
+# 7. Opcional: integrar Plymouth en mkinitcpio
+# =========================
+echo
+if grep -q "plymouth" /etc/mkinitcpio.conf; then
+  echo "==> El hook 'plymouth' ya está presente en /etc/mkinitcpio.conf. Saltando este paso."
+else
+  read -rp "¿Añadir hook 'plymouth' a /etc/mkinitcpio.conf y regenerar initramfs? [s/N]: " ENABLE_PLYMOUTH
+  if [[ "$ENABLE_PLYMOUTH" =~ ^[sS]$ ]]; then
+    echo "==> Añadiendo 'plymouth' a HOOKS en /etc/mkinitcpio.conf..."
+    # Inserta 'plymouth' después de 'udev' si se encuentra ese patrón
+    sudo sed -i 's/^HOOKS=(base udev /HOOKS=(base udev plymouth /' /etc/mkinitcpio.conf || true
+
+    echo "==> Regenerando initramfs (mkinitcpio -P)..."
+    sudo mkinitcpio -P
+
+    echo
+    echo "IMPORTANTE:"
+    echo "  - Aún debes editar tus entradas de systemd-boot en /boot/loader/entries/"
+    echo "  - Añade 'quiet splash' al final de la línea 'options' de tu entrada principal."
+    echo "  - Asegúrate de tener 'initrd /intel-ucode.img' antes de 'initrd /initramfs-linux.img'."
+  else
+    echo "==> No se ha tocado /etc/mkinitcpio.conf. Puedes configurar Plymouth a mano más tarde."
+  fi
+fi
+
 echo
 echo "==> Todo listo 🎉"
 echo "   • Revisa ~/.config para ver las configs copiadas."
-echo "   • Inicia sesión en Hyprland o recarga para aplicar el rice."
+echo "   • Revisa /boot/loader/entries si quieres terminar de integrar Plymouth (quiet splash)."
+echo "   • Inicia sesión en Hyprland para disfrutar el rice."
