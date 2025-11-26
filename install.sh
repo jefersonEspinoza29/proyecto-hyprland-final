@@ -106,6 +106,7 @@ sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
 AUR_PKGS=(
   eww-wayland
   hyprshot
+  layer-shell-qt5
   matugen
   swww
   rofi-wayland

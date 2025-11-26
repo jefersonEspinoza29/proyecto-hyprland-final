@@ -1,8 +1,10 @@
 @import "colors.css";
 
 * {
-  font-family: "JetBrainsMono Nerd Font", "Noto Sans", "Cantarell";
-  font-size: 12px;
+  font-family: "JetBrainsMono Nerd Font propo", "Noto Sans", "Cantarell";
+  font-size: 14px;
+  font-weight: 900;
+  
 }
 
 /* color de texto general basado en la paleta */

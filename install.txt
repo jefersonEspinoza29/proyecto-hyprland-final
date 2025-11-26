@@ -22,4 +22,45 @@ yay -S swww
 
 sudo pacman -S blueman
 
+sudo pacman -S git base-devel \
+  layer-shell-qt layer-shell-qt5 \
+  qt5-base qt5-declarative qt5-graphicaleffects qt5-quickcontrols2 qt5-wayland
+
+cd ~
+git clone https://github.com/HyDE-Project/sddm-hyprland
+cd sddm-hyprland
+sudo make install
+
+sudo mkdir -p /etc/sddm.conf.d/hypr
+sudo nano /etc/sddm.conf.d/hypr/sddm-hyprland.conf
+
+
+
+# SDDM Wayland sobre Hyprland (greeter)
+
+[Theme]
+CursorTheme=Bibata-Modern-Ice
+CursorSize=24
+
+[General]
+# SDDM en Wayland
+DisplayServer=wayland
+GreeterEnvironment=QT_WAYLAND_SHELL_INTEGRATION=layer-shell
+HaltCommand=/usr/bin/systemctl poweroff
+RebootCommand=/usr/bin/systemctl reboot
+Numlock=on
+
+[Wayland]
+# Hyprland especial de SDDM
+CompositorCommand=Hyprland -c /usr/share/hyde/sddm/hyprland.conf
+EnableHiDPI=true
+
+[X11]
+Enable=false
+
+
+sudo nano /etc/sddm.conf.d/00-default.conf
+
+[Theme]
+Current=breeze
 
