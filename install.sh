@@ -47,6 +47,7 @@ PACMAN_PKGS=(
   pavucontrol
   playerctl
   jq
+  pamixer
 
   # system tray / red / bt / brillo
   blueman
