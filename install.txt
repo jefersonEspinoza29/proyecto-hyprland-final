@@ -1,4 +1,5 @@
-agregando la configuracion para eww:
+intrucciones de instalacion manual:
+
 
 actualizamos sistema
 sudo pacman -Syyu
