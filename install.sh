@@ -180,30 +180,61 @@ if [[ "$ENABLE_SDDM" =~ ^[sS]$ ]]; then
 fi
 
 # =========================
-# 7. Opcional: integrar Plymouth en mkinitcpio
+# 7. Opcional: integrar Plymouth de forma SEGURA
 # =========================
 echo
-if grep -q "plymouth" /etc/mkinitcpio.conf; then
-  echo "==> El hook 'plymouth' ya está presente en /etc/mkinitcpio.conf. Saltando este paso."
-else
-  read -rp "¿Añadir hook 'plymouth' a /etc/mkinitcpio.conf y regenerar initramfs? [s/N]: " ENABLE_PLYMOUTH
-  if [[ "$ENABLE_PLYMOUTH" =~ ^[sS]$ ]]; then
-    echo "==> Añadiendo 'plymouth' a HOOKS en /etc/mkinitcpio.conf..."
-    # Inserta 'plymouth' después de 'udev' si se encuentra ese patrón
-    sudo sed -i 's/^HOOKS=(base udev /HOOKS=(base udev plymouth /' /etc/mkinitcpio.conf || true
+read -rp "¿Integrar Plymouth (seguro, sin romper mkinitcpio)? [s/N]: " ENABLE_PLYMOUTH
 
-    echo "==> Regenerando initramfs (mkinitcpio -P)..."
+if [[ "$ENABLE_PLYMOUTH" =~ ^[sS]$ ]]; then
+  echo "==> Comprobando mkinitcpio.conf..."
+
+  if ! grep -q "^HOOKS=" /etc/mkinitcpio.conf; then
+    echo "❌ ERROR: No se encontró HOOKS en /etc/mkinitcpio.conf"
+    echo "Abortando para evitar daños."
+    exit 1
+  fi
+
+  if grep -q "plymouth" /etc/mkinitcpio.conf; then
+    echo "==> Plymouth ya está presente en HOOKS. No se modifica nada."
+  else
+    echo "==> Creando backup de mkinitcpio.conf..."
+    sudo cp /etc/mkinitcpio.conf /etc/mkinitcpio.conf.bak.$(date +%F_%H-%M-%S)
+
+    echo "==> Insertando 'plymouth' después de 'udev' (método seguro)..."
+    sudo sed -i -E \
+      's/^(HOOKS=\([^)]*)udev/\1udev plymouth/' \
+      /etc/mkinitcpio.conf
+
+    echo "==> Verificando resultado:"
+    grep "^HOOKS=" /etc/mkinitcpio.conf
+
+    echo "==> Regenerando initramfs..."
     sudo mkinitcpio -P
+  fi
+
+  echo
+  echo "==> Verificando systemd-boot..."
+  if [[ -d /boot/loader/entries ]]; then
+    echo "✔ systemd-boot detectado"
 
     echo
-    echo "IMPORTANTE:"
-    echo "  - Aún debes editar tus entradas de systemd-boot en /boot/loader/entries/"
-    echo "  - Añade 'quiet splash' al final de la línea 'options' de tu entrada principal."
-    echo "  - Asegúrate de tener 'initrd /intel-ucode.img' antes de 'initrd /initramfs-linux.img'."
+    echo "IMPORTANTE (NO AUTOMÁTICO PARA EVITAR ERRORES):"
+    echo "Edita tu entry principal en /boot/loader/entries/*.conf"
+    echo "y agrega SOLO al final de 'options':"
+    echo
+    echo "    quiet splash"
+    echo
+    echo "Ejemplo CORRECTO:"
+    echo "options root=UUID=xxxx rw quiet splash"
   else
-    echo "==> No se ha tocado /etc/mkinitcpio.conf. Puedes configurar Plymouth a mano más tarde."
+    echo "⚠ No se detectó systemd-boot."
+    echo "Si usas GRUB, añade 'quiet splash' en GRUB_CMDLINE_LINUX_DEFAULT"
+    echo "y ejecuta: sudo grub-mkconfig -o /boot/grub/grub.cfg"
   fi
+else
+  echo "==> Plymouth omitido por el usuario."
 fi
+
 
 echo
 echo "==> Todo listo 🎉"
